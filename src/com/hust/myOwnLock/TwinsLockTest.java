@@ -1,10 +1,14 @@
 package com.hust.myOwnLock;
 
 import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class TwinsLockTest {
 
 	public static void main(String[] args) {
+		//ReentrantLock locktest=new ReentrantLock();
+		
+		
 		final Lock lock=new TwinsLock();
 		for(int i=0;i<10;i++){
 			Thread thread=new Thread(new Runnable() {
