@@ -9,7 +9,7 @@ public class Productor implements Runnable{
 	private ReentrantLock lock=null;
 	private Condition notfull=null;
 	private Condition notEmpty=null;
-	private boolean running=false;
+	private volatile boolean running=false;
 	
 	public Productor(LinkedList jobs,ReentrantLock lock,Condition notEmpty,Condition notfull){		
 		this.jobs=jobs;
@@ -44,7 +44,7 @@ public class Productor implements Runnable{
 	}
 	@Override
 	public void run() {
-		while(running){
+		while(running&&!Thread.currentThread().isInterrupted()){
 			addJobs(new Runnable() {
 				
 				@Override
@@ -52,7 +52,7 @@ public class Productor implements Runnable{
 					System.out.println("正在执行任务！");
 					
 					try {
-						Thread.sleep(1000);
+						Thread.sleep(500);
 					} catch (InterruptedException e) {						
 						e.printStackTrace();
 					}
